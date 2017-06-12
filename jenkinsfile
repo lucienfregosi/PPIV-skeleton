@@ -1,0 +1,27 @@
+node {
+   // Mark the code checkout 'stage'....
+   echo 'Hello from jenkinsfile'
+   stage 'Checkout'
+
+   // Get some code from a GitHub repository
+   //git url: 'https://github.com/Labdoui/PPIV.git'
+   git url: 'https://github.com/Labdoui/PPIV.git', branch: 'bassemBranch'
+
+
+
+    //Cleaning stage
+    stage('Cleanup') {
+       sh "sbt clean"
+    }
+
+    //test stage
+    stage('test') {
+       sh "sbt test"
+    }
+
+    //Cleaning stage
+    stage('assembly') {
+        sh "sbt assembly"
+    }
+   echo 'End packaging'
+ }
