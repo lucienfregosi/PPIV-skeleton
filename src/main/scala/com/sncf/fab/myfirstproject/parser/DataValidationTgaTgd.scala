@@ -4,8 +4,7 @@ package com.sncf.fab.myfirstproject.parser
    et transformation des données s'il ya lieu*/
 
 
-/* ce code ne couvre pas tous les sous-domaines et est en attente de définition des règles
- de gestion exemple :qu'est ce qu'un train valide , une gare valide etc ...*/
+/* ce code ne couvre pas tous les sous-domaines */
 
 import org.apache.spark.broadcast.Broadcast
 import org.apache.spark.rdd.RDD
