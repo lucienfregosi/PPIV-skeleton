@@ -42,9 +42,9 @@ case class InvalidEvent(event: TgaTgdEvent, cause: InvalidEventCause)
 case object DataValidationTgaTgd {
  / * La fonction de validation */
   def validationFunction(events: RDD[TgaTgdEvent],
-                         eligibleGares: Set[String],
+                         eligibleGares: Set[String], /* ces gares sont définies dans le référentiel */
                          eligibleMajs: Set[Long],
-                         eligibleTrains: Set[String]
+                         eligibleTrains: Set[String] /* les trains sont définis dans le référentiel*/
                         /* rajouter toutes les fonctions de validation qu'on souhaite exécuter*/
                         ): TgaTgdEvent => ValidationNel[InvalidEvent, TgaTgdEvent] = {
 
