@@ -2,10 +2,11 @@ package com.sncf.fab.myfirstproject.pipelineData
 
 import com.sncf.fab.myfirstproject.Exception.PpivRejectionHandler
 import com.sncf.fab.myfirstproject.business.{QualiteAffichage, TgaTgdParsed}
-import com.sncf.fab.myfirstproject.parser.DatasetsParser
+import com.sncf.fab.myfirstproject.parser.{DataValidationTgaTgd, DatasetsParser}
 import com.sncf.fab.myfirstproject.persistence.{PersistElastic, PersistHdfs, PersistHive, PersistLocal}
 import com.sncf.fab.myfirstproject.utils.AppConf._
 import com.sncf.fab.myfirstproject.utils.Conversion
+import org.apache.spark
 import org.apache.spark.sql.{Dataset, SQLContext, SparkSession}
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
@@ -13,13 +14,11 @@ import org.apache.spark.SparkContext
 
 trait SourcePipeline extends Serializable {
 
-
-  val sparkConf= new SparkConf().setMaster(SPARK_MASTER).setAppName(PPIV).set("es.index.auto.create", "true").set("es.nodes", HOST)
-
-  val sc = new SparkContext(sparkConf)
-
-  val sparkSession = SQLContext.getOrCreate(sc)
-  sparkSession.sparkContext.getConf
+  val sparkSession = SparkSession.builder.
+    master(SPARK_MASTER)
+    .appName(PPIV)
+    .getOrCreate()
+  sparkSession.sparkContext.getConf.set("es.index.auto.create", "true").set("es.nodes", HOST)
 
   import sparkSession.implicits._
 
@@ -73,6 +72,16 @@ trait SourcePipeline extends Serializable {
 
     import com.sncf.fab.myfirstproject.parser.DatasetsParser._
     //read data from csv file
+
+    //* added by samir in order to test data validation template *//
+    val input = sparkSession.read.format("com.databricks.spark.csv")
+                .option("header","true")
+                .load(getSource()).rdd
+    /*Call de la fonction de validation */
+
+
+
+      //* end update Samir G. //
     val dsTgaTgd = sparkSession.read.format("com.databricks.spark.csv")
       .option("delimiter", ",").load(getSource())
     //filter the header to ovoid columns name problem matching

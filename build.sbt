@@ -25,8 +25,8 @@ libraryDependencies ++= Seq(
 "org.scala-lang" % "scalap" % "2.10.4" withSources() withJavadoc(),
 "org.scala-lang" % "scala-compiler" % "2.10.4" withSources() withJavadoc(),
 "org.specs2" %% "specs2-core" % "2.4.9-scalaz-7.0.6" % "test" withSources() withJavadoc(),
-"org.specs2" %% "specs2-scalacheck" % "2.4.9-scalaz-7.0.6" % "test" withSources() withJavadoc()
-
+"org.specs2" %% "specs2-scalacheck" % "2.4.9-scalaz-7.0.6" % "test" withSources() withJavadoc(),
+"com.novocode" % "junit-interface" % "0.8" % "test->default"
 )
 
 test in assembly := {}
